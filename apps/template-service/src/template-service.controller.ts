@@ -1,10 +1,10 @@
 import { Controller, Get, Post, Body, Param } from '@nestjs/common';
-import { Template_service_service } from './template-service.service';
+import { template_service_service } from './template-service.service';
 import { Render_templat_dto } from './render-template.dto';
 
 @Controller('templates')
-export class TemplateServiceController {
-  constructor(private readonly template_service: Template_service_service) {}
+export class template_service_controller {
+  constructor(private readonly template_service: template_service_service) {}
 
   @Get()
   async find_all() {

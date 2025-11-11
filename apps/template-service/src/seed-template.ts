@@ -140,7 +140,7 @@ export const templates: Record<string, Template> = {
   offer: {
     id: 'offer',
     name: 'Offer email',
-    subject: `Offer for, {{name}}!`,
+    subject: `Offer for, {{user_name}}!`,
     content: `
       <!DOCTYPE html>
       <html>

@@ -10,7 +10,7 @@ import { templates } from './seed-template';
 import { RenderedTemplate, Template } from 'shared/types';
 
 @Injectable()
-export class Template_service_service implements OnModuleInit {
+export class template_service_service implements OnModuleInit {
   constructor(@Inject(CACHE_MANAGER) private cacheManager: Cache) {}
   async onModuleInit() {
     // seed all template on startup

@@ -1,9 +1,9 @@
 import { NestFactory } from '@nestjs/core';
-import { TemplateServiceModule } from './template-service.module';
+import { template_service_module } from './template-service.module';
 import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
-  const app = await NestFactory.create(TemplateServiceModule);
+  const app = await NestFactory.create(template_service_module);
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
