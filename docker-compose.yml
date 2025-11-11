@@ -1,4 +1,5 @@
 services:
+<<<<<<< HEAD
   api-gateway:
     build:
       context: . # <-- Build context is the root
@@ -32,3 +33,91 @@ services:
   #     - '9000:9000' # (Example port for PHP-FPM)
   #   volumes:
   #     - ./apps/template-service:/var/www/html
+=======
+  postgres:
+    image: postgres:17
+    container_name: postgres
+    environment:
+      POSTGRES_DB: main_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: qwerty12
+    ports:
+      - '5433:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U postgres']
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    ports:
+      - '8080:80'
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    depends_on:
+      - postgres
+    restart: unless-stopped
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: rabbitmq
+    ports:
+      - '5672:5672'
+      - '15672:15672'
+    restart: unless-stopped
+
+  user-service:
+    build:
+      context: ./apps/user-service
+      dockerfile: Dockerfile
+    container_name: user-service
+    ports:
+      - '3003:3003'
+    env_file:
+      - ./apps/user-service/.env
+    depends_on:
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_started
+    restart: unless-stopped
+
+  # notification-service:
+  #   build:
+  #     context: ./notification-service
+  #     dockerfile: Dockerfile
+  #   container_name: notification-service
+  #   ports:
+  #     - '3002:3002'
+  #   env_file:
+  #     - ./notification-service/.env
+  #   depends_on:
+  #     postgres:
+  #       condition: service_healthy
+  #     rabbitmq:
+  #       condition: service_started
+  #   restart: unless-stopped
+
+  # gateway-service:
+  #   build:
+  #     context: ./gateway-service
+  #     dockerfile: Dockerfile
+  #   container_name: gateway-service
+  #   ports:
+  #     - '3000:3000'
+  #   env_file:
+  #     - ./gateway-service/.env
+  #   depends_on:
+  #     - user-service
+  #     - notification-service
+  #   restart: unless-stopped
+
+volumes:
+  postgres_data:
+>>>>>>> fbf6066521f22cb875aedb7f1de4dad246dfd824

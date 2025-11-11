@@ -1,15 +1,8 @@
-<<<<<<< HEAD
-
-=======
->>>>>>> fbf6066521f22cb875aedb7f1de4dad246dfd824
 # compiled output
 /dist
 /node_modules
 /build
-<<<<<<< HEAD
-=======
 
->>>>>>> fbf6066521f22cb875aedb7f1de4dad246dfd824
 # Logs
 logs
 *.log
@@ -18,13 +11,6 @@ pnpm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
-<<<<<<< HEAD
-# OS
-.DS_Store
-# Tests
-/coverage
-/.nyc_output
-=======
 
 # OS
 .DS_Store
@@ -33,7 +19,6 @@ lerna-debug.log*
 /coverage
 /.nyc_output
 
->>>>>>> fbf6066521f22cb875aedb7f1de4dad246dfd824
 # IDEs and editors
 /.idea
 .project
@@ -42,47 +27,30 @@ lerna-debug.log*
 *.launch
 .settings/
 *.sublime-workspace
-<<<<<<< HEAD
-=======
 
->>>>>>> fbf6066521f22cb875aedb7f1de4dad246dfd824
 # IDE - VSCode
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
-<<<<<<< HEAD
-=======
 
->>>>>>> fbf6066521f22cb875aedb7f1de4dad246dfd824
 # dotenv environment variable files
 .env
 .env.development.local
 .env.test.local
 .env.production.local
 .env.local
-<<<<<<< HEAD
-# temp directory
-.temp
-.tmp
-=======
 
 # temp directory
 .temp
 .tmp
 
->>>>>>> fbf6066521f22cb875aedb7f1de4dad246dfd824
 # Runtime data
 pids
 *.pid
 *.seed
 *.pid.lock
-<<<<<<< HEAD
-# Diagnostic reports (https://nodejs.org/api/report.html)
-report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
-=======
 
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
->>>>>>> fbf6066521f22cb875aedb7f1de4dad246dfd824

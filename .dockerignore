@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # This file stops Docker from copying these files into your image,
 # making your build much faster and more secure.
 
@@ -15,3 +16,16 @@
 .git
 .vscode
 npm-debug.log*
+=======
+node_modules
+npm-debug.log
+dist
+.env
+.env.*
+.git
+.gitignore
+README.md
+docker-compose.yml
+Dockerfile
+.dockerignore
+>>>>>>> fbf6066521f22cb875aedb7f1de4dad246dfd824
