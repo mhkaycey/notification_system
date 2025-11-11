@@ -1,4 +1,4 @@
-FROM node:18-alpine AS builder
+FROM node:20-alpine AS builder
 
 WORKDIR /app
 
@@ -9,6 +9,8 @@ COPY tsconfig*.json ./
 # Install dependencies
 RUN npm ci
 
+RUN npm install
+
 # Copy source code
 COPY src ./src
 
@@ -16,7 +18,7 @@ COPY src ./src
 RUN npm run build
 
 # Production stage
-FROM node:18-alpine
+FROM node:20-alpine
 
 WORKDIR /app
 
@@ -36,3 +38,22 @@ USER nestjs
 EXPOSE 3001
 
 CMD ["node", "dist/main"]
+
+
+
+# FROM node:20-alpine AS builder
+
+# WORKDIR /app
+# COPY package*.json ./
+# RUN npm install --legacy-peer-deps
+# COPY . .
+# RUN npm run build
+
+# FROM node:20-alpine
+# WORKDIR /app
+# COPY --from=builder /app/dist ./dist
+# COPY package*.json ./
+# RUN npm install --only=production --legacy-peer-deps
+# COPY .env .env
+# EXPOSE 3001
+# CMD ["node", "dist/main"]

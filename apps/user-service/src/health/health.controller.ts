@@ -26,13 +26,13 @@ export class HealthController {
       () => this.db.pingCheck('database'),
 
       // RabbitMQ health check
-      () =>
-        this.microservice.pingCheck('rabbitmq', {
-          transport: Transport.RMQ,
-          options: {
-            urls: [this.configService.get('RABBITMQ_URL')],
-          },
-        }),
+      // () =>
+      //   this.microservice.pingCheck('rabbitmq', {
+      //     transport: Transport.RMQ,
+      //     options: {
+      //       urls: [this.configService.get('RABBITMQ_URL')],
+      //     },
+      //   }),
 
       // // Redis health check
       // async () => {

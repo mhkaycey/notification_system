@@ -109,25 +109,6 @@ export class UsersService {
     });
   }
 
-  // async updatePreferences(
-  //   id: string,
-  //   preferences: UpdatePreferenceDto,
-  // ): Promise<User> {
-  //   const user = await this.userRepository.findOne({
-  //     where: { id },
-  //     relations: ['notification_preferences'], // if using separate entity
-  //   });
-  //   if (!user) {
-  //     throw new NotFoundException(`User with ID ${id} not found`);
-  //   }
-  //   Object.assign(user, { preferences });
-  //   const updatedUser = await this.userRepository.save(user);
-
-  //   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  //   const { password, ...result } = updatedUser;
-  //   return result as User;
-  // }
-
   async remove(id: string): Promise<void> {
     const result = await this.userRepository.delete(id);
 

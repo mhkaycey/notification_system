@@ -22,7 +22,7 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { ResponseHelper } from '../common/helpers/response.helper';
 // import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { UpdatePreferenceDto } from './dto/update-preference.dto';
-import { UuidValidationPipe } from 'src/common/pipes/uuid-validation.pip';
+import { UuidValidationPipe } from '../common/pipes/uuid-validation.pip';
 
 @ApiTags('users')
 @Controller('api/v1/users')
