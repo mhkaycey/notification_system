@@ -1,4 +1,9 @@
+version: '3.8'
+
 services:
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: notification_rabbitmq
   api-gateway:
     build:
       context: ./apps/api-gateway # <-- Build context is the root
@@ -54,40 +59,70 @@ services:
     image: postgres:17
     container_name: postgres
     environment:
-      POSTGRES_DB: main_db
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: qwerty12
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
     ports:
-      - '5433:5432'
+      - "5672:5672"   # AMQP
+      - "15672:15672" # Management UI
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - rabbitmq_data:/var/lib/rabbitmq
     healthcheck:
-      test: ['CMD-SHELL', 'pg_isready -U postgres']
+      test: ["CMD", "rabbitmq-diagnostics", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    container_name: notification_redis
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
       interval: 10s
-      timeout: 5s
-      retries: 10
+      timeout: 3s
+      retries: 5
     restart: unless-stopped
 
-  pgadmin:
-    image: dpage/pgadmin4
-    container_name: pgadmin
+  template-service:
+    build:
+      context: ./services/template-service
+    container_name: template_service
     ports:
-      - '8080:80'
+      - "8000:8000"
     environment:
-      PGADMIN_DEFAULT_EMAIL: admin@admin.com
-      PGADMIN_DEFAULT_PASSWORD: admin
+      PORT: 8000
+      REDIS_URL: redis://redis:6379
     depends_on:
-      - postgres
+      redis:
+        condition: service_healthy
     restart: unless-stopped
 
-  rabbitmq:
-    image: rabbitmq:3-management
-    container_name: rabbitmq
+  email-service:
+    build:
+      context: ./services/email-service
+    container_name: email_service
     ports:
-      - '5672:5672'
-      - '15672:15672'
+      - "3003:3003"
+    environment:
+      PORT: 3003
+      RABBITMQ_URL: amqp://guest:guest@rabbitmq:5672
+      TEMPLATE_SERVICE_URL: http://template-service:8000
+      REDIS_URL: redis://redis:6379
+      SMTP_HOST: ${SMTP_HOST}
+      SMTP_PORT: ${SMTP_PORT}
+      SMTP_USER: ${SMTP_USER}
+      SMTP_PASS: ${SMTP_PASS}
+      SMTP_FROM: ${SMTP_FROM}
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      template-service:
+        condition: service_started
     restart: unless-stopped
-
   # notification-service:
   #   build:
   #     context: ./notification-service
@@ -119,4 +154,5 @@ services:
   #   restart: unless-stopped
 
 volumes:
-  postgres_data:
+  rabbitmq_data:
+  redis_data:
