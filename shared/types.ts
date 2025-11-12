@@ -36,47 +36,10 @@ export interface RenderResponse {
 
 // EMAIL SERVICE TYPES
 
-export interface EmailMessage {
-  id: string;
-  to: string;
-  template_id: 'welcome' | 'application' | 'offer';
-  data: Record<string, any>;
-  priority: 'high' | 'normal' | 'low';
-  created_at: Date;
-}
-
 export interface SendEmailDto {
   to: string;
-  template_id: 'welcome' | 'application' | 'offer';
-  data: Record<string, any>;
-  priority?: 'high' | 'normal' | 'low';
-}
-
-export interface EmailQueueMessage {
-  id: string;
-  to: string;
-  template_id: string;
-  data: Record<string, any>;
-  priority: 'high' | 'normal' | 'low';
-  retry_count: number;
-  max_retries: number;
-  created_at: string;
-}
-
-export enum EmailStatus {
-  PENDING = 'pending',
-  PROCESSING = 'processing',
-  SENT = 'sent',
-  FAILED = 'failed',
-}
-
-export interface SendEmailResponse {
-  success: boolean;
-  message: string;
-  data: {
-    email_id: string;
-    status: EmailStatus;
-  };
+  subject: string;
+  html: string;
 }
 
 // ============ SHARED TYPES ============
