@@ -1,3 +1,22 @@
+<<<<<<< HEAD
+# This file stops Docker from copying these files into your image,
+# making your build much faster and more secure.
+
+# Ignore all node_modules folders (in root AND in apps)
+**/node_modules
+
+# Ignore all build output folders
+**/dist
+
+# Ignore all .env files (they contain secrets!)
+.env
+.env.*
+
+# Ignore system files
+.git
+.vscode
+npm-debug.log*
+=======
 node_modules
 npm-debug.log
 dist
@@ -9,3 +28,4 @@ README.md
 docker-compose.yml
 Dockerfile
 .dockerignore
+>>>>>>> fbf6066521f22cb875aedb7f1de4dad246dfd824
