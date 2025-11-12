@@ -6,8 +6,8 @@ import { IsBoolean } from 'class-validator';
  */
 export class UserPreferencesDto {
   @IsBoolean()
-  email: boolean;
+  email!: boolean;
 
   @IsBoolean()
-  push: boolean;
+  push?: boolean;
 }

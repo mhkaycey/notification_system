@@ -1,21 +1,40 @@
-# This Dockerfile assumes its build context is the MONOREPO ROOT
-# The docker-compose file will handle this
-FROM node:18-alpine
+FROM node:20-alpine AS builder
+
 WORKDIR /app
 
-# 1. Install all monorepo dependencies
-# We only copy the package.json files first to leverage Docker caching
-COPY package.json package-lock.json* ./
+# Copy package files
+COPY package*.json ./
+COPY tsconfig*.json ./
+
+# Install dependencies
 RUN npm ci
 
-# 2. Copy all shared config and code
-COPY nest-cli.json tsconfig.build.json tsconfig.json ./
-COPY shared/ shared/
+RUN npm install
 
-# 3. Copy THIS service's source code
-# This is the only line that will be different in other Dockerfiles
-COPY apps/api-gateway/ apps/api-gateway/
+# Copy source code
+COPY src ./src
 
-# 4. Set the default command
-# This tells NestJS to run this *specific* app from the monorepo
-CMD ["npm", "run", "start:dev", "api-gateway"]
+# Build the application
+RUN npm run build
+
+# Production stage
+FROM node:20-alpine
+
+WORKDIR /app
+
+# Copy package files and install production dependencies only
+COPY package*.json ./
+RUN npm ci --only=production
+
+# Copy built application from builder
+COPY --from=builder /app/dist ./dist
+
+# Create non-root user
+RUN addgroup -g 1001 -S nodejs && \
+    adduser -S nestjs -u 1001
+
+USER nestjs
+
+# EXPOSE 3001
+
+CMD [ "node", "npm", "dist/main" ]

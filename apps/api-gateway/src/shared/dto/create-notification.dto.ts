@@ -26,22 +26,22 @@ import { UserData } from './user-data.dto';
  */
 export class CreateNotificationDto {
   @IsEnum(NotificationType)
-  notification_type: NotificationType;
+  notification_type!: NotificationType;
 
   @IsUUID()
-  user_id: string;
+  user_id!: string;
 
   @IsString()
   @IsNotEmpty()
-  template_code: string;
+  template_code!: string;
 
   @ValidateNested()
   @Type(() => UserData)
   @IsNotEmpty()
-  variables: UserData;
+  variables!: UserData;
 
   @IsUUID()
-  request_id: string; // For idempotency
+  request_id!: string; // For idempotency
 
   @IsOptional()
   priority?: number;

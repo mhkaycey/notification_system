@@ -1,14 +1,17 @@
 services:
   api-gateway:
     build:
-      context: . # <-- Build context is the root
-      dockerfile: apps/api-gateway/Dockerfile # <-- Points to its own file
+      context: ./apps/api-gateway # <-- Build context is the root
+      dockerfile: Dockerfile # <-- Points to its own file
+    container_name: api-gateway
     ports:
       - '3001:3000'
-    volumes:
-      # This overrides the code in the image with your live code
-      - ./apps/api-gateway/src:/app/apps/api-gateway/src
-      - ./shared:/app/shared
+
+    # volumes:
+    #   # This overrides the code in the image with your live code
+    #   # - ./apps/api-gateway/src:/app/apps/api-gateway/src
+    #   - ./apps/api-gateway/src
+    #   - ./shared:/app/shared
     environment:
       - NODE_ENV=development
 

@@ -1,7 +1,8 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { CreateNotificationDto } from '@shared/dto/create-notification.dto';
+
 import { UsersService } from '../users/users.service';
 import { QueueService } from '../../core/queue/queue.service';
+import { CreateNotificationDto } from '../../shared/dto/create-notification.dto';
 
 @Injectable()
 export class NotificationsService {
@@ -44,7 +45,7 @@ export class NotificationsService {
         status: 'queued',
       };
     } catch (error) {
-      this.logger.error('Error processing notification', error.stack);
+      this.logger.error('Error processing notification', error);
       throw new Error('Failed to process notification request.');
     }
   }

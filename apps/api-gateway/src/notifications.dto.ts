@@ -19,11 +19,11 @@ enum NotificationType {
 class UserData {
   @IsString()
   @IsNotEmpty()
-  name: string;
+  name!: string;
 
   @IsString() // Or @IsUrl() if you add validation
   @IsNotEmpty()
-  link: string; // HttpUrl
+  link!: string; // HttpUrl
 
   @IsOptional()
   @IsObject()
@@ -33,21 +33,21 @@ class UserData {
 // The main DTO for the POST body
 export class CreateNotificationDto {
   @IsEnum(NotificationType)
-  notification_type: NotificationType;
+  notification_type?: NotificationType;
 
   @IsUUID()
-  user_id: string;
+  user_id?: string;
 
   @IsString()
   @IsNotEmpty()
-  template_code: string;
+  template_code?: string;
 
   @ValidateNested()
   @Type(() => UserData)
-  variables: UserData;
+  variables?: UserData;
 
   @IsUUID() // The spec says 'str', but a UUID is good for idempotency
-  request_id: string;
+  request_id?: string;
 
   @IsOptional()
   priority?: number;
