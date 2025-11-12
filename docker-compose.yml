@@ -4,6 +4,60 @@ services:
   rabbitmq:
     image: rabbitmq:3-management-alpine
     container_name: notification_rabbitmq
+  api-gateway:
+    build:
+      context: ./apps/api-gateway # <-- Build context is the root
+      dockerfile: Dockerfile # <-- Points to its own file
+    container_name: api-gateway
+    ports:
+      - '3001:3000'
+
+    # volumes:
+    #   # This overrides the code in the image with your live code
+    #   # - ./apps/api-gateway/src:/app/apps/api-gateway/src
+    #   - ./apps/api-gateway/src
+    #   - ./shared:/app/shared
+    # environment:
+    #   - NODE_ENV=development
+
+  # user-service:
+  #   build:
+  #     context: .
+  #     dockerfile: apps/user-service/Dockerfile
+  #   ports:
+  #     - '3002:3000' # So you can test it directly if you want
+  #   volumes:
+  #     - ./apps/user-service/src:/app/apps/user-service/src
+  #     - ./shared:/app/shared
+  #   environment:
+  #     - NODE_ENV=development
+  user-service:
+    build:
+      context: ./apps/user-service
+      dockerfile: Dockerfile
+    container_name: user-service
+    ports:
+      - '3003:3003'
+    env_file:
+      - ./apps/user-service/.env
+    depends_on:
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_started
+    restart: unless-stopped
+
+  # template-service:
+  #   build:
+  #     context: ./apps/template-service # <-- Context is its own folder
+  #     dockerfile: Dockerfile # <-- Uses the Dockerfile inside
+  #   ports:
+  #     - '9000:9000' # (Example port for PHP-FPM)
+  #   volumes:
+  #     - ./apps/template-service:/var/www/html
+  postgres:
+    image: postgres:17
+    container_name: postgres
     environment:
       RABBITMQ_DEFAULT_USER: guest
       RABBITMQ_DEFAULT_PASS: guest
@@ -69,6 +123,35 @@ services:
       template-service:
         condition: service_started
     restart: unless-stopped
+  # notification-service:
+  #   build:
+  #     context: ./notification-service
+  #     dockerfile: Dockerfile
+  #   container_name: notification-service
+  #   ports:
+  #     - '3002:3002'
+  #   env_file:
+  #     - ./notification-service/.env
+  #   depends_on:
+  #     postgres:
+  #       condition: service_healthy
+  #     rabbitmq:
+  #       condition: service_started
+  #   restart: unless-stopped
+
+  # gateway-service:
+  #   build:
+  #     context: ./gateway-service
+  #     dockerfile: Dockerfile
+  #   container_name: gateway-service
+  #   ports:
+  #     - '3000:3000'
+  #   env_file:
+  #     - ./gateway-service/.env
+  #   depends_on:
+  #     - user-service
+  #     - notification-service
+  #   restart: unless-stopped
 
 volumes:
   rabbitmq_data:
