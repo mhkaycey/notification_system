@@ -1,4 +1,3 @@
-// src/users/users.service.ts
 import {
   Injectable,
   NotFoundException,
@@ -24,7 +23,6 @@ export class UsersService {
   ) {}
 
   async create(createUserDto: CreateUserDto): Promise<Omit<User, 'password'>> {
-    // Check if user already exists
     const existingUser = await this.userRepository.findOne({
       where: { email: createUserDto.email },
     });
@@ -33,10 +31,8 @@ export class UsersService {
       throw new ConflictException('User with this email already exists');
     }
 
-    // Hash password
     const hashedPassword = await bcrypt.hash(createUserDto.password, 10);
 
-    // Create user with preferences
     const user = this.userRepository.create({
       name: createUserDto.name,
       email: createUserDto.email,
@@ -69,7 +65,7 @@ export class UsersService {
     if (!user) {
       throw new NotFoundException('User not found');
     }
-    // Update fields
+
     if (updateUserDto.name !== undefined) {
       user.name = updateUserDto.name;
     }

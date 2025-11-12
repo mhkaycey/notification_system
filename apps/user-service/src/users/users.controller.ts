@@ -6,14 +6,8 @@ import {
   Patch,
   Param,
   Delete,
-  // UseGuards,
 } from '@nestjs/common';
-import {
-  ApiTags,
-  ApiOperation,
-  // ApiBearerAuth,
-  ApiResponse,
-} from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -25,7 +19,7 @@ import { UpdatePreferenceDto } from './dto/update-preference.dto';
 import { UuidValidationPipe } from '../common/pipes/uuid-validation.pip';
 
 @ApiTags('users')
-@Controller('api/v1/users')
+@Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
@@ -42,8 +36,6 @@ export class UsersController {
   }
 
   @Get(':id')
-  // @UseGuards(JwtAuthGuard)
-  // @ApiBearerAuth()
   @ApiOperation({ summary: 'Get user by ID' })
   @ApiResponse({ status: 200, description: 'User retrieved successfully' })
   @ApiResponse({ status: 404, description: 'User not found' })
@@ -53,8 +45,6 @@ export class UsersController {
   }
 
   @Patch(':id')
-  // @UseGuards(JwtAuthGuard)
-  // @ApiBearerAuth()
   @ApiOperation({ summary: 'Update user' })
   @ApiResponse({ status: 200, description: 'User updated successfully' })
   @ApiResponse({ status: 404, description: 'User not found' })
@@ -67,8 +57,6 @@ export class UsersController {
   }
 
   @Patch(':id/preferences')
-  // @UseGuards(JwtAuthGuard)
-  // @ApiBearerAuth()
   @ApiOperation({ summary: 'Update user notification preferences' })
   @ApiResponse({ status: 200, description: 'Preferences updated successfully' })
   @ApiResponse({ status: 404, description: 'User not found' })
@@ -81,8 +69,6 @@ export class UsersController {
   }
 
   @Delete(':id')
-  // @UseGuards(JwtAuthGuard)
-  // @ApiBearerAuth()
   @ApiOperation({ summary: 'Delete user' })
   @ApiResponse({ status: 200, description: 'User deleted successfully' })
   @ApiResponse({ status: 404, description: 'User not found' })
