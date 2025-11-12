@@ -12,8 +12,8 @@ services:
     #   # - ./apps/api-gateway/src:/app/apps/api-gateway/src
     #   - ./apps/api-gateway/src
     #   - ./shared:/app/shared
-    environment:
-      - NODE_ENV=development
+    # environment:
+    #   - NODE_ENV=development
 
   # user-service:
   #   build:
