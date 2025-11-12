@@ -20,7 +20,6 @@
     "test:e2e": "jest --config ./apps/notification-system/test/jest-e2e.json"
   },
   "dependencies": {
-<<<<<<< HEAD
     "@nestjs/axios": "^4.0.1",
     "@nestjs/common": "^11.0.1",
     "@nestjs/config": "^4.0.2",
@@ -30,21 +29,24 @@
     "amqp-connection-manager": "^5.0.0",
     "amqplib": "^0.10.9",
     "axios": "^1.13.2",
-=======
-    "@nestjs/common": "^11.1.8",
-    "@nestjs/config": "^4.0.2",
-    "@nestjs/core": "^11.1.8",
+    "@golevelup/nestjs-rabbitmq": "^6.0.2",
+    "@nestjs-modules/mailer": "^2.0.2",
+    "@nestjs/cache-manager": "^3.0.1",
+
     "@nestjs/jwt": "^11.0.1",
-    "@nestjs/microservices": "^11.1.8",
-    "@nestjs/passport": "^11.0.5",
+  
     "@nestjs/platform-express": "^11.1.8",
     "@nestjs/swagger": "^11.2.1",
     "@nestjs/terminus": "^11.0.0",
     "@nestjs/typeorm": "^11.0.0",
     "bcrypt": "^6.0.0",
->>>>>>> fbf6066521f22cb875aedb7f1de4dad246dfd824
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.2",
+   
+    "cache-manager": "^7.2.4",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.2",
+    "nodemailer": "^7.0.10",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.2",
     "typeorm": "^0.3.27"
