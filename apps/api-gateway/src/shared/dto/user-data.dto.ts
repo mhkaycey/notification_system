@@ -3,12 +3,12 @@ import { IsNotEmpty, IsObject, IsOptional, IsString } from 'class-validator';
 export class UserData {
   @IsString()
   @IsNotEmpty()
-  name: string;
+  name!: string;
 
   @IsString()
   @IsNotEmpty()
   // You could also use @IsUrl()
-  link: string;
+  link!: string;
 
   @IsOptional()
   @IsObject()
