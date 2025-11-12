@@ -1,10 +1,11 @@
 import { Module } from '@nestjs/common';
-import { TemplateServiceController } from './template-service.controller';
-import { TemplateServiceService } from './template-service.service';
+import { CacheModule } from '@nestjs/cache-manager';
+import { template_service_controller } from './template-service.controller';
+import { template_service_service } from './template-service.service';
 
 @Module({
-  imports: [],
-  controllers: [TemplateServiceController],
-  providers: [TemplateServiceService],
+  imports: [CacheModule.register()],
+  controllers: [template_service_controller],
+  providers: [template_service_service],
 })
-export class TemplateServiceModule {}
+export class template_service_module {}
