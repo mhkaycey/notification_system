@@ -5,7 +5,7 @@ import { LoginDto } from './dto/login.dto';
 import { ResponseHelper } from '../common/helpers/response.helper';
 
 @ApiTags('auth')
-@Controller('api/v1/auth')
+@Controller('auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
 

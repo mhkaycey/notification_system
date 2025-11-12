@@ -27,10 +27,6 @@ export class AuthService {
       throw new UnauthorizedException('Invalid credentials');
     }
 
-    // if (!user.is_active) {
-    //   throw new UnauthorizedException('Account is inactive');
-    // }
-
     const payload = { sub: user.id, email: user.email };
     const access_token = this.jwtService.sign(payload);
 
