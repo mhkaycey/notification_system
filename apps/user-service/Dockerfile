@@ -38,7 +38,7 @@ USER nestjs
 
 EXPOSE 3001
 
-CMD ["node", "dist/main"]
+CMD ["npm", "run", "start"]
 
 
 
