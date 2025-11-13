@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { MailerService } from '@nestjs-modules/mailer';
-import type { SendEmailDto } from 'shared/types';
+import type { SendEmailDto } from '../shared/types';
 
 @Injectable()
 export class email_service_service {
