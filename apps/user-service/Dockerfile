@@ -36,7 +36,7 @@ RUN addgroup -g 1001 -S nodejs && \
 
 USER nestjs
 
-EXPOSE 3001
+EXPOSE 3003
 
 CMD ["npm", "run", "start"]
 
