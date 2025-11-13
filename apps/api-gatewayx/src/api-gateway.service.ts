@@ -2,58 +2,79 @@ import { Inject, Injectable, Logger } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { HttpService } from '@nestjs/axios';
 import { firstValueFrom } from 'rxjs';
-import { CreateNotificationDto } from './notifications.dto';
-
+import { CreateNotificationDto, NotificationType } from './shared';
+import { UsersService } from './features/users/users.service';
+import { NotificationsService } from './features/notifications/notifications.service';
+import { AxiosError } from 'axios';
 @Injectable()
 export class ApiGatewayService {
   private readonly logger = new Logger(ApiGatewayService.name);
 
   constructor(
-    private readonly httpService: HttpService,
-    @Inject('NOTIFICATION_SERVICE') private readonly mqClient: ClientProxy,
+    private readonly usersService: UsersService,
+    private readonly notificationService: NotificationsService,
   ) {}
 
   async processNotification(dto: CreateNotificationDto) {
-    this.logger.log(`Processing notification for user ${dto.user_id}`);
+    this.logger.log(
+      `[AppService] Processing notification for user ${dto.user_id}`,
+    );
 
     try {
-      // 1. SYNC Call: Fetch user preferences
-      const userPrefUrl = `/api/v1/users/${dto.user_id}/preferences`;
-      const { data: prefs } = await firstValueFrom(
-        this.httpService.get(userPrefUrl),
-      );
+      const user = await this.usersService.getUserById(dto.user_id);
+      this.logger.log(`[AppService] Successfully fetched user: ${user.name}`);
 
-      // 2. Check if user wants this notification type
+      const prefs = user.preferences;
+      if (!prefs) {
+        throw new Error('User preferences not found');
+      }
+
       const notificationType = dto.notification_type;
-      if (!notificationType || !prefs[notificationType as keyof typeof prefs]) {
+      if (!prefs[notificationType]) {
         return {
           request_id: dto.request_id,
           status: 'skipped',
-          message: `User has disabled ${notificationType ?? 'unknown'} notifications.`,
+          message: `User has disabled ${notificationType} notifications.`,
         };
       }
 
-      // 3. Publish to message queue
-      const routingKey = `${notificationType}.queue`;
+      // 4. Create the payload
       const messagePayload = {
         request_id: dto.request_id,
         user_id: dto.user_id,
+        user_email: user.email,
+        user_name: user.name,
         template_code: dto.template_code,
         variables: dto.variables,
       };
 
-      this.mqClient.emit(routingKey, messagePayload);
-      this.logger.log(`Published to ${routingKey}`);
+      // 5. ASYNC Push: Publish the job
+      this.notificationService.publishNotification(
+        notificationType as NotificationType,
+        messagePayload,
+      );
 
+      // 6. Return "Queued" to the client
       return {
         request_id: dto.request_id,
         status: 'queued',
       };
     } catch (error) {
+      // 7. Handle any errors
       if (error instanceof Error) {
-        this.logger.error('Error processing notification', error.stack);
+        if (error instanceof AxiosError) {
+          this.logger.error(
+            'Error from downstream user-service',
+            error.response?.data,
+          );
+        } else {
+          this.logger.error(
+            `Error processing notification: ${error.message}`,
+            error.stack,
+          );
+        }
       } else {
-        this.logger.error('Unknown error', JSON.stringify(error));
+        this.logger.error('Unknown error in processNotification', error);
       }
       throw new Error('Failed to process notification request.');
     }

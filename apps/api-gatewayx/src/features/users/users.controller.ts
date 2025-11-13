@@ -11,17 +11,5 @@ export class UsersController {
     // Just validates and passes the request to the adapter
     return this.usersService.createUser(createUserDto);
   }
-
-  //test endpoint
-  @Get('test-call')
-  async testUserServiceCall() {
-    const fakeUserId = 'a1b2c3d4-e5f6-7890';
-
-    // It will use the UsersService adapter to call
-    // http://user-service:3000/api/v1/users/a1b2c3d4-e5f6-7890/preferences
-    return this.usersService.getUserPreferences(fakeUserId);
-  }
-  // You can proxy any other user-service endpoints here
-  // @Get(':id/preferences')
-  // ...
 }
+//test endpoint

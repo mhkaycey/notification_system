@@ -17,24 +17,32 @@ import { ApiProperty } from '@nestjs/swagger';
 export class CreateUserDto {
   @ApiProperty({ example: 'John Doe' })
   @IsString()
-  @IsNotEmpty()
-  name!: string;
+  name: string;
 
   @ApiProperty({ example: 'john.doe@example.com' })
   @IsEmail()
-  email!: string;
+  email: string;
 
+  @ApiProperty({ example: 'SecurePass123!' })
   @IsString()
-  @IsNotEmpty()
   @MinLength(8)
-  password!: string;
+  password: string;
 
+  @ApiProperty({
+    example: 'fcm_token_or_device_token_here',
+    required: false,
+    description: 'Push notification token (optional)',
+  })
   @IsOptional()
   @IsString()
   push_token?: string;
 
+  @ApiProperty({
+    type: UserPreferencesDto,
+    example: { email: true, push: true },
+  })
   @ValidateNested()
   @Type(() => UserPreferencesDto)
-  @IsNotEmpty()
-  preferences!: UserPreferencesDto;
+  preferences: UserPreferencesDto;
+
 }

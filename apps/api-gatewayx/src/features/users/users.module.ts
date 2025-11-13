@@ -7,7 +7,7 @@ import { UsersService } from './users.service';
   imports: [
     HttpModule.register({
       timeout: 5000,
-      baseURL: 'http://user-service:3000', // Docker service name for user-service
+      baseURL: 'http://user-service:3003', // Docker service name for user-service
     }),
   ],
   controllers: [UsersController],
