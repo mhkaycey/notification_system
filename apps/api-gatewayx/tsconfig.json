@@ -3,7 +3,6 @@
     "module": "nodenext",
     "moduleResolution": "nodenext",
     "resolvePackageJsonExports": true,
-    "strictPropertyInitialization": false,
     "esModuleInterop": true,
     "isolatedModules": true,
     "declaration": true,
@@ -17,14 +16,10 @@
     "baseUrl": "./",
     "incremental": true,
     "skipLibCheck": true,
-    "strict": true,
     "strictNullChecks": true,
     "forceConsistentCasingInFileNames": true,
     "noImplicitAny": false,
     "strictBindCallApply": false,
-    "noFallthroughCasesInSwitch": false,
-    "paths": {
-      "@shared/*": ["shared/*"]
-    }
+    "noFallthroughCasesInSwitch": false
   }
 }
