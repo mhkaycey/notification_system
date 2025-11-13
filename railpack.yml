@@ -1,9 +1,9 @@
 version: "1.0"
 apps:
   - name: api-gatewayx
-    path: apps/api-gatewayx
+    path: ./apps/api-gatewayx
     language: node
-    dockerfile: Dockerfile
+    dockerfile: ./apps/api-gatewayx/Dockerfile
     port: 3000
   # - name: auth-service
   #   path: apps/auth-service
@@ -16,9 +16,9 @@ apps:
   #   dockerfile: Dockerfile
   #   port: 3002
   - name: user-service
-    path: apps/user-service
+    path: ./apps/user-service
     language: node
-    dockerfile: Dockerfile
+    dockerfile: ./apps/user-service/Dockerfile
     port: 3003
   # - name: payment-service
   #   path: apps/payment-service
